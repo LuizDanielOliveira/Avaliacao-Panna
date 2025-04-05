@@ -17,7 +17,6 @@ export default function CandidatoUpdateForm() {
   const [successMsg, setSuccessMsg] = useState('')
   const [form, setForm] = useState<FormData | null>(null)
 
-  // Buscar CPF manualmente da lista
   const handleBuscarCPF = async () => {
     if (!cpfBusca) {
       setErrorMsg('Informe um CPF')
@@ -67,8 +66,8 @@ export default function CandidatoUpdateForm() {
     setErrorMsg('')
     setSuccessMsg('')
     try {
-      const res = await fetch('http://localhost:3001/candidatos', {
-        method: 'POST',
+      const res = await fetch(`http://localhost:3001/candidatos/${form.cpf}`, {
+        method: 'PUT', // ← ATUALIZA em vez de criar novo
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
@@ -108,11 +107,36 @@ export default function CandidatoUpdateForm() {
 
       {form && (
         <form onSubmit={handleSubmit} className="space-y-3 mt-4">
-          <input className="w-full border p-2 rounded" name="nome" value={form.nome} onChange={handleChange} />
-          <input className="w-full border p-2 rounded bg-gray-100" name="cpf" value={form.cpf} disabled />
-          <input className="w-full border p-2 rounded" name="email" value={form.email} onChange={handleChange} />
-          <input className="w-full border p-2 rounded" name="telefone" value={form.telefone} onChange={handleChange} />
-          <input className="w-full border p-2 rounded" name="endereco" value={form.endereco} onChange={handleChange} />
+          <input
+            className="w-full border p-2 rounded"
+            name="nome"
+            value={form.nome}
+            onChange={handleChange}
+          />
+          <input
+            className="w-full border p-2 rounded bg-gray-100"
+            name="cpf"
+            value={form.cpf}
+            disabled
+          />
+          <input
+            className="w-full border p-2 rounded"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+          />
+          <input
+            className="w-full border p-2 rounded"
+            name="telefone"
+            value={form.telefone}
+            onChange={handleChange}
+          />
+          <input
+            className="w-full border p-2 rounded"
+            name="endereco"
+            value={form.endereco}
+            onChange={handleChange}
+          />
           <textarea
             className="w-full border p-2 rounded"
             name="qualificacoes"

@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useState } from 'react'
-import CandidatoCreateForm from '@/components/CandidatoUpdateForm'
+import CandidatoCreateForm from '@/components/CandidatoCreateForm'
 import CandidatoUpdateForm from '@/components/CandidatoUpdateForm'
 import CandidatoList from '@/components/CandidatoList'
 
