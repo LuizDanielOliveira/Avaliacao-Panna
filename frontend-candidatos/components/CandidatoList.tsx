@@ -39,30 +39,42 @@ export default function CandidatoList() {
     link.click()
   }
 
-  if (loading) return <p className="text-center text-gray-500">Carregando...</p>
-  if (errorMsg) return <p className="text-red-600 text-center">{errorMsg}</p>
+  if (loading) {
+    return <p className="text-center text-gray-300">Carregando...</p>
+  }
+
+  if (errorMsg) {
+    return <p className="text-center text-red-400">{errorMsg}</p>
+  }
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Lista de Candidatos</h1>
+    <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl px-6 py-8 max-w-4xl mx-auto text-white">
+      <h1 className="text-3xl font-bold text-cyan-300 text-center mb-6">
+        Lista de Candidatos
+      </h1>
+
       {candidatos.length === 0 ? (
-        <p>Nenhum candidato cadastrado.</p>
+        <p className="text-center text-gray-400">Nenhum candidato cadastrado.</p>
       ) : (
-        <ul className="space-y-4">
+        <ul className="space-y-6">
           {candidatos.map((c, i) => (
-            <li key={i} className="p-4 bg-white rounded shadow">
-              <p><strong>Nome:</strong> {c.nome}</p>
-              <p><strong>CPF:</strong> {c.cpf}</p>
-              <p><strong>Email:</strong> {c.email}</p>
-              <p><strong>Telefone:</strong> {c.telefone}</p>
-              <p><strong>Endereço:</strong> {c.endereco}</p>
-              <p><strong>Qualificações:</strong> {c.qualificacoes}</p>
+            <li
+              key={i}
+              className="p-6 rounded-xl border border-white/10 bg-white/10 hover:bg-white/20 transition-all"
+            >
+              <p className="mb-1"><span className="font-semibold text-cyan-300">Nome:</span> {c.nome}</p>
+              <p className="mb-1"><span className="font-semibold text-cyan-300">CPF:</span> {c.cpf}</p>
+              <p className="mb-1"><span className="font-semibold text-cyan-300">Email:</span> {c.email}</p>
+              <p className="mb-1"><span className="font-semibold text-cyan-300">Telefone:</span> {c.telefone}</p>
+              <p className="mb-1"><span className="font-semibold text-cyan-300">Endereço:</span> {c.endereco}</p>
+              <p className="mb-2"><span className="font-semibold text-cyan-300">Qualificações:</span> {c.qualificacoes}</p>
+
               {c.curriculo && (
                 <button
                   onClick={() => handleDownload(c.curriculo!, c.nome)}
-                  className="mt-2 text-blue-600 underline"
+                  className="text-sm text-blue-400 hover:text-blue-300 underline mt-2"
                 >
-                  📎 Anexo Base64
+                  📎 Baixar Currículo (Base64)
                 </button>
               )}
             </li>

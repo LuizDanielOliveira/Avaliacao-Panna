@@ -25,14 +25,12 @@ export default function CandidatoForm() {
   const [errorMsg, setErrorMsg] = useState('')
   const [successMsg, setSuccessMsg] = useState('')
 
-  // Lida com a mudança de texto nos campos
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  // Lida com o upload do arquivo, convertendo em Base64
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -44,27 +42,12 @@ export default function CandidatoForm() {
     reader.readAsDataURL(file)
   }
 
-  // Limpa o formulário
-  const clearForm = () => {
-    setForm({
-      nome: '',
-      cpf: '',
-      email: '',
-      telefone: '',
-      endereco: '',
-      qualificacoes: '',
-      curriculo: '',
-    })
-  }
-
-  // Envia o formulário para a API
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setErrorMsg('')
     setSuccessMsg('')
 
-    // Validação mínima antes de enviar
     if (!form.nome || !form.cpf || !form.email) {
       setErrorMsg('Campos obrigatórios: Nome, CPF, Email')
       setLoading(false)
@@ -82,139 +65,142 @@ export default function CandidatoForm() {
         throw new Error(`Erro ao enviar: status ${res.status}`)
       }
 
-      // Convert response to JSON (se a API estiver retornando algo)
-      const data = await res.json()
-      setSuccessMsg('Cadastrado/atualizado com sucesso!')
-      console.log('API Response:', data)
-
-      // Limpa o form depois de sucesso
+      await res.json()
+      setSuccessMsg('Cadastrado com sucesso!')
       clearForm()
     } catch (error: any) {
-      console.error('Erro ao enviar:', error)
       setErrorMsg(error.message || 'Erro ao cadastrar.')
     } finally {
       setLoading(false)
     }
   }
 
+  const clearForm = () => {
+    setForm({
+      nome: '',
+      cpf: '',
+      email: '',
+      telefone: '',
+      endereco: '',
+      qualificacoes: '',
+      curriculo: '',
+    })
+  }
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded space-y-4"
-    >
-      <h2 className="text-xl font-bold">Cadastro de Candidato</h2>
+    <div className="flex justify-center px-4 pt-6 pb-16">
 
-      {errorMsg && (
-        <div className="bg-red-100 text-red-600 p-2 rounded">
-          {errorMsg}
-        </div>
-      )}
-      {successMsg && (
-        <div className="bg-green-100 text-green-700 p-2 rounded">
-          {successMsg}
-        </div>
-      )}
-
-      <div className="flex flex-col">
-        <label className="font-semibold mb-1" htmlFor="nome">Nome</label>
-        <input
-          className="border rounded px-3 py-2"
-          type="text"
-          name="nome"
-          id="nome"
-          value={form.nome}
-          onChange={handleChange}
-          placeholder="Ex: João da Silva"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label className="font-semibold mb-1" htmlFor="cpf">CPF</label>
-        <input
-          className="border rounded px-3 py-2"
-          type="text"
-          name="cpf"
-          id="cpf"
-          value={form.cpf}
-          onChange={handleChange}
-          placeholder="Ex: 12345678900 (somente números)"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label className="font-semibold mb-1" htmlFor="email">Email</label>
-        <input
-          className="border rounded px-3 py-2"
-          type="email"
-          name="email"
-          id="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="exemplo@email.com"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label className="font-semibold mb-1" htmlFor="telefone">Telefone</label>
-        <input
-          className="border rounded px-3 py-2"
-          type="text"
-          name="telefone"
-          id="telefone"
-          value={form.telefone}
-          onChange={handleChange}
-          placeholder="Ex: (11) 99999-9999"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label className="font-semibold mb-1" htmlFor="endereco">Endereço</label>
-        <input
-          className="border rounded px-3 py-2"
-          type="text"
-          name="endereco"
-          id="endereco"
-          value={form.endereco}
-          onChange={handleChange}
-          placeholder="Ex: Rua ABC, 123"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label className="font-semibold mb-1" htmlFor="qualificacoes">
-          Qualificações
-        </label>
-        <textarea
-          className="border rounded px-3 py-2"
-          name="qualificacoes"
-          id="qualificacoes"
-          rows={3}
-          value={form.qualificacoes}
-          onChange={handleChange}
-          placeholder="Ex: Curso X, experiência Y..."
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label className="font-semibold mb-1" htmlFor="curriculo">Currículo</label>
-        <input
-          className="border rounded px-3 py-2"
-          type="file"
-          id="curriculo"
-          onChange={handleFileUpload}
-        />
-        {form.curriculo && (
-          <p className="text-sm text-blue-600 mt-1">Arquivo anexado em Base64</p>
-        )}
-      </div>
-
-      <button
-        type="submit"
-        disabled={loading}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-3xl bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 shadow-xl text-white"
       >
-        {loading ? 'Enviando...' : 'Enviar'}
-      </button>
-    </form>
+        <h2 className="text-3xl font-bold text-cyan-300 text-center mb-2">
+          Cadastro de Candidato
+        </h2>
+        <p className="text-sm text-gray-300 text-center mb-8">
+          Preencha todos os dados abaixo para cadastrar um novo candidato.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Input label="Nome completo" name="nome" value={form.nome} onChange={handleChange} />
+          <Input label="CPF" name="cpf" value={form.cpf} onChange={handleChange} />
+          <Input label="Email" name="email" type="email" value={form.email} onChange={handleChange} />
+          <Input label="Telefone" name="telefone" value={form.telefone} onChange={handleChange} />
+          <Input label="Endereço" name="endereco" value={form.endereco} onChange={handleChange} className="md:col-span-2" />
+          <Textarea label="Qualificações" name="qualificacoes" value={form.qualificacoes} onChange={handleChange} />
+        </div>
+
+        <div className="mt-6">
+          <label className="text-sm text-gray-300 font-medium block mb-1">
+            Currículo (PDF DOC, etc.)
+          </label>
+          <input
+            type="file"
+            id="curriculo"
+            onChange={handleFileUpload}
+            className="text-blue-400 file:text-white file:bg-blue-700 file:rounded file:px-4 file:py-1 file:cursor-pointer file:border-0"
+          />
+          {form.curriculo && (
+            <p className="text-green-400 text-sm mt-1">✔ Arquivo anexado</p>
+          )}
+        </div>
+
+        {errorMsg && (
+          <div className="bg-red-500/10 text-red-400 px-4 py-2 rounded mt-4 text-sm text-center">
+            {errorMsg}
+          </div>
+        )}
+        {successMsg && (
+          <div className="bg-green-500/10 text-green-400 px-4 py-2 rounded mt-4 text-sm text-center">
+            {successMsg}
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="mt-8 w-full py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold hover:brightness-110 transition-all disabled:opacity-50"
+        >
+          {loading ? 'Enviando...' : 'Enviar'}
+        </button>
+      </form>
+    </div>
   )
 }
+
+type InputProps = {
+  label: string
+  name: string
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  type?: string
+  className?: string
+}
+
+const Input = ({
+  label,
+  name,
+  value,
+  onChange,
+  type = 'text',
+  className = '',
+}: InputProps) => (
+  <div className={`flex flex-col ${className}`}>
+    <label className="text-sm text-gray-300 font-medium mb-1" htmlFor={name}>
+      {label}
+    </label>
+    <input
+      type={type}
+      id={name}
+      name={name}
+      value={value}
+      onChange={onChange}
+      className="bg-white/10 backdrop-blur-md border border-white/10 text-white px-4 py-2 rounded-lg placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+      placeholder={label}
+    />
+  </div>
+)
+
+type TextareaProps = {
+  label: string
+  name: string
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
+}
+
+const Textarea = ({ label, name, value, onChange }: TextareaProps) => (
+  <div className="flex flex-col md:col-span-2">
+    <label className="text-sm text-gray-300 font-medium mb-1" htmlFor={name}>
+      {label}
+    </label>
+    <textarea
+      id={name}
+      name={name}
+      rows={3}
+      value={value}
+      onChange={onChange}
+      className="bg-white/10 backdrop-blur-md border border-white/10 text-white px-4 py-2 rounded-lg placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+      placeholder={label}
+    />
+  </div>
+)
