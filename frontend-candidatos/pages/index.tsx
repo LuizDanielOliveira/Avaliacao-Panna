@@ -22,7 +22,7 @@ export default function Home() {
   <div className="w-full max-w-4xl bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl px-6 py-8">
     {/* Título */}
     <h1 className="text-3xl font-bold text-center text-white mb-6">
-      Sistema RH
+      Sistema RH - Panna
     </h1>
 
     {/* Menu interno */}
